@@ -1,0 +1,25 @@
+<h1 class="text-2xl font-semibold mb-4">Organizations</h1>
+
+<table class="min-w-full bg-white rounded shadow overflow-hidden">
+  <thead class="bg-gray-100 text-left text-sm font-semibold text-gray-600">
+    <tr>
+      <th class="px-6 py-3">Name</th>
+      <th class="px-6 py-3">Description</th>
+      <th class="px-6 py-3">Actions</th>
+    </tr>
+  </thead>
+  <tbody class="divide-y divide-gray-200 text-sm">
+    <% @organizations.each do |org| %>
+      <tr class="hover:bg-gray-50">
+        <td class="px-6 py-3"><%= org.name %> <span class="text-2xl font-semibold"> <%= "(#{current_user.role_in(org)})"%> </span></td>
+        <td class="px-6 py-3"><%= org.description %></td>
+        <td class="px-6 py-3">
+          <% if policy(org).switch? %>
+            <%= button_to "Enter", switch_organization_path(org), method: :post,
+                  class: "text-blue-600 hover:underline" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

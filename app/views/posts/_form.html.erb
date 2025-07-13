@@ -1,0 +1,28 @@
+<%= form_with(model: [current_organization, @space, post], local: true, class: "space-y-6") do |f| %>
+  <% if post.errors.any? %>
+    <div class="bg-red-50 text-red-500 px-4 py-2 rounded">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+      <ul class="list-disc ml-6">
+        <% post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :content, class: "block text-sm font-medium text-gray-700" %>
+    <%= f.text_area :content, rows: 5, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm" %>
+  </div>
+
+  <div class="my-5">
+    <%= f.label :rule_set_ids, "Rules sets" %>
+    <%= f.collection_select :rule_set_ids,
+        current_organization.rule_sets.where(rule_type: RuleSet::RULE_TYPES[0]),
+        :id, :name,
+        { prompt: "Select rule sets", include_hidden: false },
+        { multiple: true, class: "block w-full border rounded-md px-3 py-2 shadow-sm" } %>
+  </div>
+
+  <%= f.submit class: "bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded font-semibold" %>
+<% end %>

@@ -1,0 +1,50 @@
+<% content_for :title, "Posts in #{ @space.name }" %>
+
+<div class="w-full">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Posts in <%= @space.name %></h1>
+
+    <% if policy(Post.new(space: @space)).create? %>
+      <%= link_to "New Post", new_organization_space_post_path(current_organization, @space),
+          class: "bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2 rounded shadow" %>
+    <% end %>
+  </div>
+
+  <% if @posts.any? %>
+    <table class="min-w-full bg-white shadow rounded">
+      <thead class="bg-gray-50 text-sm text-gray-700">
+        <tr>
+          <th class="px-6 py-3 text-left">Author</th>
+          <th class="px-6 py-3 text-left">Content</th>
+          <th class="px-6 py-3 text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="text-sm divide-y divide-gray-200">
+        <% @posts.each do |post| %>
+          <tr>
+            <td class="px-6 py-4"><%= post.author.email %></td>
+            <td class="px-6 py-4"><%= truncate(post.content, length: 100) %></td>
+            <td class="px-6 py-4 space-x-2">
+              <%= link_to "Show", organization_space_post_path(current_organization, @space, post),
+                    class: "text-indigo-600 hover:underline" %>
+
+              <% if policy(post).update? %>
+                <%= link_to "Edit", edit_organization_space_post_path(current_organization, @space, post),
+                      class: "text-yellow-600 hover:underline" %>
+              <% end %>
+
+              <% if policy(post).destroy? %>
+                <%= button_to "Delete", organization_space_post_path(current_organization, @space, post),
+                    method: :delete,
+                    data: { turbo_confirm: "Are you sure?" },
+                    class: "text-red-600 hover:underline bg-transparent p-0" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-gray-500 italic text-center my-10">No posts available.</p>
+  <% end %>
+</div>

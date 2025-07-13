@@ -1,0 +1,44 @@
+<%= form_with(model: [current_organization, rule_set], local: true, class: "space-y-6") do |f| %>
+  <div>
+    <%= f.label :name, class: "block text-sm font-medium text-gray-700" %>
+    <%= f.text_field :name, class: "mt-1 block w-full border rounded-md" %>
+  </div>
+
+  <div>
+    <%= f.label :rule_type, "Applies To", class: "block text-sm font-medium text-gray-700" %>
+    <%= f.select :rule_type,
+                options_for_select(RuleSet.rule_type_options, rule_set.rule_type),
+                {},
+                class: "mt-1 block w-full border rounded-md" %>
+  </div>
+
+  <div data-controller="nested-form" data-nested-form-wrapper-selector-value=".rules-container">
+    <h3 class="font-semibold text-gray-800 mt-4">Rules</h3>
+
+    <div class="rules-container space-y-4">
+      <%= f.fields_for :rules do |rule_form| %>
+        <%= render partial: "rule_fields", locals: { f: rule_form } %>
+      <% end %>
+    </div>
+
+    <template id="rule-template">
+      <%= raw(
+        f.fields_for(:rules, Rule.new, child_index: "NEW_RECORD") do |rule_form|
+          render partial: "rule_fields", locals: { f: rule_form }
+        end
+      ) %>
+    </template>
+
+    <div>
+      <button type="button"
+              data-action="nested-form#add"
+              class="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        + Add Rule
+      </button>
+    </div>
+  </div>
+
+  <div>
+    <%= f.submit "Save Rule Set", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+  </div>
+<% end %>

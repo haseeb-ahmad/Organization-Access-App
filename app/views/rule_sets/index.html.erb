@@ -1,0 +1,32 @@
+<h1 class="text-2xl font-bold mb-4">Rule Sets</h1>
+
+<% if current_user.admin_of?(current_organization) %>
+  <%= link_to "New Rule Set", new_organization_rule_set_path(current_organization), class: "bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block" %>
+<% end %>
+
+<table class="min-w-full bg-white rounded shadow overflow-hidden mb-4">
+  <thead class="bg-gray-100 text-left text-sm font-semibold text-gray-600">
+    <tr>
+      <th class="px-6 py-3">Name</th>
+      <th class="px-6 py-3">Ruleable</th>
+      <th class="px-6 py-3">Actions</th>
+    </tr>
+  </thead>
+  <tbody class="divide-y divide-gray-200 text-sm">
+    <% @rule_sets.each do |rule_set| %>
+      <tr class="hover:bg-gray-50">
+        <td class="px-6 py-3"><%= rule_set.name %></td>
+        <td class="px-6 py-3"><%= rule_set.rule_type %></td>
+        <td class="px-6 py-3 space-x-2">
+          <% if policy(rule_set).show? %>
+            <%= link_to "Show", organization_rule_set_path(current_organization, rule_set), class: "text-blue-600 hover:underline" %>
+          <% end %>
+
+          <% if policy(rule_set).edit? %>
+            <%= link_to "Edit", edit_organization_rule_set_path(current_organization, rule_set), class: "text-yellow-600 hover:underline" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

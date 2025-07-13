@@ -1,0 +1,26 @@
+<div class="border p-4 bg-gray-50 rounded-md relative" data-new-field>
+  <div class="grid grid-cols-3 gap-4">
+    <div>
+      <%= f.label :field, class: "block text-sm font-medium" %>
+      <%= f.text_field :field, class: "mt-1 block w-full border rounded" %>
+    </div>
+    <div>
+      <%= f.label :operator, class: "block text-sm font-medium" %>
+      <%= f.select :operator, ['==', '!=', '>', '<', '>=', '<=', 'in'], {}, class: "mt-1 block w-full border rounded" %>
+    </div>
+    <div>
+      <%= f.label :value, class: "block text-sm font-medium" %>
+      <%= f.text_field :value, class: "mt-1 block w-full border rounded" %>
+    </div>
+  </div>
+  <div class="mt-2 flex justify-end">
+    <% if f.object.persisted? %>
+      <%= f.check_box :_destroy, class: "mr-1" %>
+      <%= f.label :_destroy, "Remove", class: "text-sm text-red-600" %>
+    <% else %>
+      <button type="button" data-action="click->nested-form#remove" class="text-red-500 hover:underline text-sm">
+        Remove
+      </button>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<% content_for :title, "Editing space" %>
+
+<div class="md:w-2/3 w-full space-y-6">
+  <h1 class="font-bold text-4xl text-gray-800">Editing Space</h1>
+
+  <% if policy(@space).update? %>
+    <%= render "form", space: @space %>
+  <% else %>
+    <p class="text-red-600 font-semibold">You are not authorized to edit this space.</p>
+  <% end %>
+
+  <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+    <% if policy(@space).show? %>
+      <%= link_to "Show this space", [current_organization, @space],
+          class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+    <% end %>
+
+    <% if policy(@space).index? %>
+      <%= link_to "Back to Spaces", organization_spaces_path(current_organization),
+          class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+    <% end %>
+  </div>
+</div>

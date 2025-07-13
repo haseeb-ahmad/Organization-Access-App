@@ -1,0 +1,50 @@
+<% content_for :title, "Manage Members" %>
+
+<h1 class="text-2xl font-bold mb-4">Members of <%= current_organization.name %></h1>
+
+<table class="min-w-full bg-white shadow rounded overflow-hidden mb-6">
+  <thead class="bg-gray-100 text-left text-sm text-gray-700 font-semibold">
+    <tr>
+      <th class="px-6 py-3">User</th>
+      <th class="px-6 py-3">Email</th>
+      <th class="px-6 py-3">Role</th>
+      <th class="px-6 py-3">Invitation Accepted</th>
+      <th class="px-6 py-3">Actions</th>
+    </tr>
+  </thead>
+  <tbody class="divide-y divide-gray-200 text-sm">
+    <% @memberships.each do |membership| %>
+      <tr>
+        <td class="px-6 py-4"><%= membership.user.email.split('@').first %></td>
+        <td class="px-6 py-4"><%= membership.user.email %></td>
+        <td class="px-6 py-4 capitalize"><%= membership.role %></td>
+        <td class="px-6 py-4 capitalize"><%= membership.user.invitation_accepted_at.present? %></td>
+        <td class="px-6 py-4">
+          <% unless membership.user == current_user %>
+            <%= button_to "Remove", organization_membership_path(current_organization, membership),
+                method: :delete,
+                data: { turbo_confirm: "Are you sure?" },
+                class: "text-red-600 hover:underline" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2 class="text-xl font-semibold mb-2">Invite New Member</h2>
+
+<%= form_with model: [current_organization, @new_membership], local: true do |f| %>
+  <div class="mb-4">
+    <%= f.label :email, "User Email" %>
+    <%= f.email_field :email, required: true, class: "w-full border border-gray-300 rounded px-3 py-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :role, "Assign Role" %>
+    <%= f.select :role, Membership.roles.keys.map { |r| [r.titleize, r] }, class: "w-full border border-gray-300 rounded px-3 py-2" %>
+  </div>
+
+  <%= f.submit "Invite User", class: "bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-500" %>
+<% end %>
+

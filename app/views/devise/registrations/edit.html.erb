@@ -1,0 +1,32 @@
+<h2 class="text-2xl font-bold mb-4">Edit <%= resource_name.to_s.humanize %></h2>
+
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs space-y-4">
+    <%= f.input :email, required: true, autofocus: true %>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <p class="text-sm text-yellow-600">
+        Currently waiting confirmation for: <%= resource.unconfirmed_email %>
+      </p>
+    <% end %>
+
+    <%= f.input :dob, as: :date, label: "Date of Birth", start_year: 1980, end_year: Date.today.year - 5 %>
+
+    <%= f.input :custom_attributes, as: :text, label: "Custom Attributes (JSON format)", 
+          input_html: { class: "w-full px-3 py-2 border rounded", rows: 3 } %>
+
+    <%= f.input :current_password, required: true, 
+          hint: "We need your current password to confirm your changes",
+          input_html: { autocomplete: "current-password" } %>
+  </div>
+
+  <div class="form-actions mt-4">
+    <%= f.button :submit, "Update", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+  </div>
+<% end %>
+
+<div class="mt-4">
+  <%= link_to "Back", request.referer || root_path, class: "text-sm text-gray-600 hover:underline" %>
+</div>
