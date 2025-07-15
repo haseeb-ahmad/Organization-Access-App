@@ -1,33 +1,35 @@
-<div class="min-h-screen bg-gray-100 flex items-center justify-center">
-  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-    <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
+<div style="min-height: 100vh; background-color: #f3f4f6; display: flex; align-items: center; justify-content: center;">
+  <div style="background-color: white; padding: 32px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px;">
+    <h2 style="font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 24px;">Sign In</h2>
 
     <%= render "devise/shared/error_messages", resource: resource %>
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-4" }) do |f| %>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { style: "display: flex; flex-direction: column; gap: 16px;" }) do |f| %>
+      
       <div>
-        <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" %>
+        <%= f.label :email, nil, style: "display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" %>
       </div>
 
       <div>
-        <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.password_field :password, autocomplete: "current-password", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" %>
+        <%= f.label :password, nil, style: "display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;" %>
+        <%= f.password_field :password, autocomplete: "current-password", style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" %>
       </div>
 
       <% if devise_mapping.rememberable? -%>
-        <div class="flex items-center">
-          <%= f.check_box :remember_me, class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
-          <%= f.label :remember_me, class: "ml-2 block text-sm text-gray-900" %>
+        <div style="display: flex; align-items: center;">
+          <%= f.check_box :remember_me, style: "margin-right: 8px;" %>
+          <%= f.label :remember_me, nil, style: "font-size: 14px; color: #333;" %>
         </div>
       <% end -%>
 
       <div>
-        <%= f.submit "Log in", class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700" %>
+        <%= f.submit "Log in", style: "width: 100%; background-color: #2563eb; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer;" %>
       </div>
     <% end %>
 
-    <div class="mt-6 text-center">
-      <%= link_to "Forgot your password?", new_password_path(resource_name), class: "text-sm text-indigo-600 hover:text-indigo-500" %>
+    <div style="margin-top: 16px; text-align: center;">
+      <%= link_to "Forgot your password?", new_password_path(resource_name), style: "font-size: 14px; color: #2563eb; text-decoration: none;" %>
     </div>
   </div>
 </div>
