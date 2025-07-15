@@ -2,32 +2,46 @@
   <div style="background-color: white; padding: 32px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px;">
     <h2 style="font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 24px;">Sign Up</h2>
 
+    <!-- Server-side errors -->
     <%= render "devise/shared/error_messages", resource: resource %>
 
-    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { style: "display: flex; flex-direction: column; gap: 16px;" }) do |f| %>
+    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {
+      style: "display: flex; flex-direction: column; gap: 16px;",
+      novalidate: false # Allow HTML5 validation
+    }) do |f| %>
+
+      <!-- Email -->
       <div>
-        <%= f.label :email, nil, style: "display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;" %>
-        <%= f.input_field :email, required: true, autofocus: true, autocomplete: "email", style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" %>
+        <%= f.label :email, "Email", style: "display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;" %>
+        <%= f.input_field :email, required: true, autofocus: true, autocomplete: "email",
+            style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" %>
       </div>
 
+      <!-- Password -->
       <div>
-        <%= f.label :password, nil, style: "display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;" %>
-        <%= f.input_field :password, required: true, autocomplete: "new-password", style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" %>
+        <%= f.label :password, "Password", style: "display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;" %>
+        <%= f.input_field :password, required: true, autocomplete: "new-password",
+            style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" %>
         <% if @minimum_password_length %>
           <p style="font-size: 12px; color: #777; margin-top: 4px;">Minimum <%= @minimum_password_length %> characters</p>
         <% end %>
       </div>
 
+      <!-- Confirm Password -->
       <div>
-        <%= f.label :password_confirmation, nil, style: "display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;" %>
-        <%= f.input_field :password_confirmation, required: true, autocomplete: "new-password", style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" %>
+        <%= f.label :password_confirmation, "Confirm Password", style: "display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px;" %>
+        <%= f.input_field :password_confirmation, required: true, autocomplete: "new-password",
+            style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" %>
       </div>
 
+      <!-- Submit -->
       <div>
         <%= f.button :submit, "Sign up", style: "width: 100%; background-color: #2563eb; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer;" %>
       </div>
+
     <% end %>
 
+    <!-- Sign in link -->
     <div style="margin-top: 16px; text-align: center;">
       <%= link_to "Already have an account? Sign in", new_session_path(resource_name), style: "font-size: 14px; color: #2563eb; text-decoration: none;" %>
     </div>

@@ -1,9 +1,11 @@
 <% if resource.errors.any? %>
-  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-    <strong class="font-bold">There were some errors:</strong>
-    <ul class="mt-2 list-disc list-inside text-sm">
-      <% resource.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+  <div style="background-color: #fee2e2; border: 1px solid #fca5a5; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+    <h3 style="color: #b91c1c; font-weight: bold; font-size: 16px; margin-bottom: 8px;">
+      There were some errors:
+    </h3>
+    <ul style="list-style-type: disc; padding-left: 20px; color: #b91c1c;">
+      <% resource.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
       <% end %>
     </ul>
   </div>

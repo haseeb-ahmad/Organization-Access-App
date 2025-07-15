@@ -2,15 +2,25 @@
   Edit <%= resource_name.to_s.humanize %>
 </h2>
 
+<% if resource.errors.any? %>
+  <div style="background-color: #fee2e2; border: 1px solid #fca5a5; padding: 16px; border-radius: 8px; color: #b91c1c; margin-bottom: 16px;">
+    
+    <ul style="margin: 0; padding-left: 20px; list-style: disc;">
+      <% resource.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {
   method: :put,
   style: "max-width: 500px; margin: 0 auto; background: white; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
 }) do |f| %>
-  <%= f.error_notification %>
-
   <div style="display: flex; flex-direction: column; gap: 16px;">
     <%= f.input :email, required: true, autofocus: true,
                 input_html: {
+                  required: true,
                   style: "width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 6px; background-color: #f9fafb; font-size: 14px;"
                 },
                 label_html: {
@@ -24,8 +34,9 @@
     <% end %>
 
     <%= f.input :dob, as: :date, label: "Date of Birth",
-                start_year: 1980, end_year: Date.today.year - 5,
+                start_year: 1900, end_year: Date.today.year - 1,
                 input_html: {
+                  required: true,
                   style: "width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 6px; background-color: #f9fafb; font-size: 14px;"
                 },
                 label_html: {
@@ -34,6 +45,7 @@
 
     <%= f.input :custom_attributes, as: :text, label: "Custom Attributes (JSON format)",
                 input_html: {
+                  required: true,
                   style: "width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 6px; background-color: #f9fafb; font-size: 14px;",
                   rows: 3
                 },
@@ -44,6 +56,7 @@
     <%= f.input :current_password, required: true,
                 hint: "We need your current password to confirm your changes",
                 input_html: {
+                  required: true,
                   autocomplete: "current-password",
                   style: "width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 6px; background-color: #f9fafb; font-size: 14px;"
                 },
@@ -61,7 +74,7 @@
 <% back_url = URI(request.referer || '').path rescue nil %>
 
 <div style="margin-top: 16px; text-align: center;">
-  <%= link_to "← Back",
+  <%= link_to "Back",
               (Rails.application.routes.recognize_path(back_url) && back_url rescue fallback_path),
               style: "display: inline-block; padding: 10px 20px; background-color: #e5e7eb; color: #111827; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 500; transition: background-color 0.3s ease;",
               onmouseover: "this.style.backgroundColor='#d1d5db'",
